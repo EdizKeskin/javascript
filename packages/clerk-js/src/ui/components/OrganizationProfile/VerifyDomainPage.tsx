@@ -48,7 +48,6 @@ export const VerifyDomainPage = withCardStateProvider(() => {
     type: 'text',
     label: localizationKeys('formFieldLabel__organizationDomainEmailAddress'),
     placeholder: localizationKeys('formFieldInputPlaceholder__organizationDomainEmailAddress'),
-    informationText: localizationKeys('formFieldLabel__organizationDomainEmailAddressDescription'),
   });
 
   const affiliationEmailAddressRef = useRef<string>();

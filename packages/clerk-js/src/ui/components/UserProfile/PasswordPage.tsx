@@ -13,7 +13,7 @@ import {
   useCardState,
   withCardStateProvider,
 } from '../../elements';
-import { useConfirmPassword, useNavigateToFlowStart, usePasswordComplexity } from '../../hooks';
+import { useConfirmPassword, useNavigateToFlowStart } from '../../hooks';
 import { createPasswordError, handleError, useFormControl } from '../../utils';
 import { UserProfileBreadcrumbs } from './UserProfileNavbar';
 
@@ -59,7 +59,6 @@ export const PasswordPage = withCardStateProvider(() => {
   const {
     userSettings: { passwordSettings },
   } = useEnvironment();
-  const { failedValidationsText } = usePasswordComplexity(passwordSettings);
 
   const passwordField = useFormControl('newPassword', '', {
     type: 'password',
@@ -67,7 +66,6 @@ export const PasswordPage = withCardStateProvider(() => {
     isRequired: true,
     enableErrorAfterBlur: true,
     validatePassword: true,
-    informationText: failedValidationsText,
     buildErrorMessage: errors => createPasswordError(errors, { t, locale, passwordSettings }),
   });
 

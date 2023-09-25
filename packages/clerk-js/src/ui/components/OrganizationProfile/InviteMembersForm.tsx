@@ -57,14 +57,11 @@ export const InviteMembersForm = (props: InviteMembersFormProps) => {
     props: {
       /* eslint-disable @typescript-eslint/no-unused-vars */
       enableErrorAfterBlur,
-      errorText,
       hasLostFocus,
       isFocused,
       setError,
       setWarning,
-      setSuccessful,
-      successfulText,
-      warningText,
+      setSuccess,
       validatePassword,
       setHasPassedComplexity,
       hasPassedComplexity,

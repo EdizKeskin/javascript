@@ -1,4 +1,5 @@
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent} from 'react';
+import { useRef } from 'react';
 import React, { forwardRef } from 'react';
 
 import { useEnvironment } from '../contexts';
@@ -7,6 +8,7 @@ import { usePassword } from '../hooks/usePassword';
 import { Eye, EyeSlash } from '../icons';
 import { useFormControl } from '../primitives/hooks';
 import type { PropsOfComponent } from '../styledSystem';
+import { mergeRefs } from '../utils';
 import { IconButton } from './IconButton';
 
 type PasswordInputProps = PropsOfComponent<typeof Input> & {
@@ -16,6 +18,7 @@ type PasswordInputProps = PropsOfComponent<typeof Input> & {
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((props, ref) => {
   const [hidden, setHidden] = React.useState(true);
   const { id, onChange: onChangeProp, validatePassword = false, ...rest } = props;
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     userSettings: { passwordSettings },
@@ -28,9 +31,16 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((p
     { ...passwordSettings, validatePassword },
     {
       onValidationSuccess: () =>
-        formControlProps?.setSuccessful?.(t(localizationKeys('unstable__errors.zxcvbn.goodPassword'))),
-      onValidationFailed: errorMessage => formControlProps?.setError?.(errorMessage),
-      onValidationWarning: errorMessage => formControlProps?.setWarning?.(errorMessage),
+        formControlProps?.setSuccess?.(t(localizationKeys('unstable__errors.zxcvbn.goodPassword'))),
+      onValidationError: message => formControlProps?.setError?.(message),
+      onValidationWarning: message => formControlProps?.setWarning?.(message),
+      onValidationInfo: message => {
+        if (inputRef.current === document.activeElement) {
+          formControlProps?.setInfo?.(message);
+        } else {
+          formControlProps?.setError?.(message);
+        }
+      },
       onValidationComplexity: hasPassed => formControlProps?.setHasPassedComplexity?.(hasPassed),
     },
   );
@@ -50,7 +60,16 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((p
       <Input
         {...rest}
         onChange={onChange}
-        ref={ref}
+        onBlur={e => {
+          rest.onBlur?.(e);
+          onChange(e);
+        }}
+        onFocus={e => {
+          rest.onFocus?.(e);
+          onChange(e);
+        }}
+        //@ts-expect-error
+        ref={mergeRefs(ref, inputRef)}
         type={hidden ? 'password' : 'text'}
         sx={theme => ({ paddingRight: theme.space.$10 })}
       />
