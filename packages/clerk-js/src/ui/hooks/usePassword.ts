@@ -62,7 +62,7 @@ export const usePassword = (config: UsePasswordConfig, callbacks?: UsePasswordCb
     [callbacks, t, locale],
   );
 
-  const setPassword = useMemo(() => {
+  const validatePassword = useMemo(() => {
     return createValidatePassword(config, {
       onValidation: onValidate,
       onValidationComplexity,
@@ -70,7 +70,7 @@ export const usePassword = (config: UsePasswordConfig, callbacks?: UsePasswordCb
   }, [onValidate]);
 
   return {
-    setPassword,
+    validatePassword,
   };
 };
 

@@ -1,4 +1,5 @@
-import type { ChangeEvent} from 'react';
+import type { ChangeEvent } from 'react';
+import { useState } from 'react';
 import { useRef } from 'react';
 import React, { forwardRef } from 'react';
 
@@ -15,10 +16,13 @@ type PasswordInputProps = PropsOfComponent<typeof Input> & {
   validatePassword?: boolean;
 };
 
+const DEBOUNCE_MS = 200;
+
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((props, ref) => {
   const [hidden, setHidden] = React.useState(true);
-  const { id, onChange: onChangeProp, validatePassword = false, ...rest } = props;
+  const { id, onChange: onChangeProp, validatePassword: validatePasswordProp = false, ...rest } = props;
   const inputRef = useRef<HTMLInputElement>(null);
+  const [timeoutState, setTimeoutState] = useState<NodeJS.Timeout | null>(null);
 
   const {
     userSettings: { passwordSettings },
@@ -27,8 +31,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((p
   const formControlProps = useFormControl();
   const { t } = useLocalizations();
 
-  const { setPassword } = usePassword(
-    { ...passwordSettings, validatePassword },
+  const { validatePassword } = usePassword(
+    { ...passwordSettings, validatePassword: validatePasswordProp },
     {
       onValidationSuccess: () =>
         formControlProps?.setSuccess?.(t(localizationKeys('unstable__errors.zxcvbn.goodPassword'))),
@@ -46,7 +50,14 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((p
   );
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+    if (timeoutState) {
+      clearTimeout(timeoutState);
+    }
+    setTimeoutState(
+      setTimeout(() => {
+        validatePassword(e.target.value);
+      }, DEBOUNCE_MS),
+    );
     return onChangeProp?.(e);
   };
 
