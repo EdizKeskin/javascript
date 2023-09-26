@@ -64,7 +64,6 @@ export const PasswordPage = withCardStateProvider(() => {
     type: 'password',
     label: localizationKeys('formFieldLabel__newPassword'),
     isRequired: true,
-    enableErrorAfterBlur: true,
     validatePassword: true,
     buildErrorMessage: errors => createPasswordError(errors, { t, locale, passwordSettings }),
   });
@@ -73,7 +72,6 @@ export const PasswordPage = withCardStateProvider(() => {
     type: 'password',
     label: localizationKeys('formFieldLabel__confirmPassword'),
     isRequired: true,
-    enableErrorAfterBlur: true,
   });
 
   const sessionsField = useFormControl('signOutOfOtherSessions', '', {

@@ -44,7 +44,6 @@ export const _ResetPassword = () => {
     type: 'password',
     label: localizationKeys('formFieldLabel__confirmPassword'),
     isRequired: true,
-    enableErrorAfterBlur: true,
   });
 
   const sessionsField = useFormControl('signOutOfOtherSessions', '', {

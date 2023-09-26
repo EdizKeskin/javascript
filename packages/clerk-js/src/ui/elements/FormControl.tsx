@@ -3,8 +3,7 @@ import type { ClerkAPIError } from '@clerk/types';
 import type { ComponentType, PropsWithChildren } from 'react';
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 
-import type {
-  LocalizationKey} from '../customizables';
+import type { LocalizationKey } from '../customizables';
 import {
   Box,
   descriptors,
@@ -26,7 +25,7 @@ import type { ElementDescriptor } from '../customizables/elementDescriptors';
 import { useFieldMessageVisibility, usePrefersReducedMotion } from '../hooks';
 import type { PropsOfComponent, ThemableCssProp } from '../styledSystem';
 import { animations } from '../styledSystem';
-import type { FeedbackType} from '../utils';
+import type { FeedbackType } from '../utils';
 import { useFormControlFeedback } from '../utils';
 import { useCardState } from './contexts';
 import { InputGroup } from './InputGroup';
@@ -51,17 +50,14 @@ type FormControlProps = Omit<PropsOfComponent<typeof Input>, 'label' | 'placehol
   setSuccess: (message: string) => void;
   feedback: string;
   feedbackType: FeedbackType;
-  hasLostFocus: boolean;
   setHasPassedComplexity: (b: boolean) => void;
   hasPassedComplexity: boolean;
-  enableErrorAfterBlur?: boolean;
   informationText?: string | LocalizationKey;
   radioOptions?: {
     value: string;
     label: string | LocalizationKey;
     description?: string | LocalizationKey;
   }[];
-  isFocused: boolean;
   groupPreffix?: string;
   groupSuffix?: string;
 };
@@ -221,16 +217,11 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
     icon,
     setError,
     setSuccess,
-    hasLostFocus,
-    enableErrorAfterBlur,
-    informationText,
-    isFocused: _isFocused,
     feedback,
     feedbackType,
     setWarning,
     setInfo,
     setHasPassedComplexity,
-    hasPassedComplexity,
     radioOptions,
     groupPreffix,
     groupSuffix,

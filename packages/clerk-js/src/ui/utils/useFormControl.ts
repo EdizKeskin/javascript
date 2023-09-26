@@ -1,5 +1,5 @@
 import type { ClerkAPIError } from '@clerk/types';
-import type { HTMLInputTypeAttribute} from 'react';
+import type { HTMLInputTypeAttribute } from 'react';
 import { useState } from 'react';
 
 import { useSetTimeout } from '../hooks';
@@ -13,7 +13,6 @@ type Options = {
   placeholder?: string | LocalizationKey;
   options?: SelectOption[];
   defaultChecked?: boolean;
-  enableErrorAfterBlur?: boolean;
 } & (
   | {
       label: string | LocalizationKey;
@@ -48,9 +47,6 @@ type FieldStateProps<Id> = {
   value: string;
   checked?: boolean;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
-  onBlur: React.FocusEventHandler<HTMLInputElement>;
-  onFocus: React.FocusEventHandler<HTMLInputElement>;
-  hasLostFocus: boolean;
   feedback: string;
   feedbackType: FeedbackType;
   setError: (error: string | ClerkAPIError | undefined) => void;
@@ -59,7 +55,6 @@ type FieldStateProps<Id> = {
   setInfo: (info: string) => void;
   setHasPassedComplexity: (b: boolean) => void;
   hasPassedComplexity: boolean;
-  isFocused: boolean;
 } & Omit<Options, 'defaultChecked'>;
 
 export type FormControlState<Id = string> = FieldStateProps<Id> & {
@@ -84,15 +79,12 @@ export const useFormControl = <Id extends string>(
     isRequired: false,
     placeholder: '',
     options: [],
-    enableErrorAfterBlur: false,
     defaultChecked: false,
   };
 
   const { translateError } = useLocalizations();
   const [value, setValueInternal] = useState<string>(initialState);
   const [checked, setCheckedInternal] = useState<boolean>(opts?.defaultChecked || false);
-  const [hasLostFocus, setHasLostFocus] = useState(false);
-  const [isFocused, setFocused] = useState(false);
   const [hasPassedComplexity, setHasPassedComplexity] = useState(false);
   const [feedback, setFeedback] = useState<{ message: string; type: FeedbackType }>({
     message: '',
@@ -104,15 +96,6 @@ export const useFormControl = <Id extends string>(
       return setCheckedInternal(event.target.checked);
     }
     return setValueInternal(event.target.value || '');
-  };
-
-  const onFocus: FormControlState['onFocus'] = () => {
-    setFocused(true);
-  };
-
-  const onBlur: FormControlState['onBlur'] = () => {
-    setFocused(false);
-    setHasLostFocus(true);
   };
 
   const setValue: FormControlState['setValue'] = val => setValueInternal(val || '');
@@ -148,14 +131,9 @@ export const useFormControl = <Id extends string>(
     name: id,
     value,
     checked,
-    hasLostFocus,
     setSuccess,
     setError,
     onChange,
-    onBlur,
-    onFocus,
-    isFocused,
-    enableErrorAfterBlur: restOpts.enableErrorAfterBlur || false,
     setWarning,
     feedback: feedback.message,
     feedbackType: feedback.type,

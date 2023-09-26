@@ -56,16 +56,12 @@ export const InviteMembersForm = (props: InviteMembersFormProps) => {
   const {
     props: {
       /* eslint-disable @typescript-eslint/no-unused-vars */
-      enableErrorAfterBlur,
-      hasLostFocus,
-      isFocused,
       setError,
       setWarning,
       setSuccess,
       validatePassword,
       setHasPassedComplexity,
       hasPassedComplexity,
-      /* eslint-enable @typescript-eslint/no-unused-vars */
       ...restEmailAddressProps
     },
   } = emailAddressField;

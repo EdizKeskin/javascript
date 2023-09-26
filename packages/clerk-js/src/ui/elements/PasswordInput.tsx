@@ -16,7 +16,7 @@ type PasswordInputProps = PropsOfComponent<typeof Input> & {
   validatePassword?: boolean;
 };
 
-const DEBOUNCE_MS = 200;
+const DEBOUNCE_MS = 350;
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((props, ref) => {
   const [hidden, setHidden] = React.useState(true);
