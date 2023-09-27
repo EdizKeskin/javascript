@@ -168,12 +168,18 @@ type DebouncedFeedback = {
 type DebouncingOption = {
   feedback?: string;
   feedbackType?: FeedbackType;
+  isFocused?: boolean;
   delayInMs?: number;
 };
 export const useFormControlFeedback = (opts?: DebouncingOption): DebouncedFeedback => {
-  const { feedback = '', delayInMs = 100, feedbackType = 'info' } = opts || {};
+  const { feedback = '', delayInMs = 100, feedbackType = 'info', isFocused = false } = opts || {};
 
-  const debouncedState = useSetTimeout({ feedback, feedbackType }, delayInMs);
+  const shouldHide = isFocused ? false : ['info', 'warning'].includes(feedbackType);
+
+  const debouncedState = useSetTimeout(
+    { feedback: shouldHide ? '' : feedback, feedbackType: shouldHide ? 'info' : feedbackType },
+    delayInMs,
+  );
 
   return {
     debounced: debouncedState,
