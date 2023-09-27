@@ -13,6 +13,7 @@ type Options = {
   placeholder?: string | LocalizationKey;
   options?: SelectOption[];
   defaultChecked?: boolean;
+  infoText?: LocalizationKey | string;
 } & (
   | {
       label: string | LocalizationKey;
@@ -82,7 +83,7 @@ export const useFormControl = <Id extends string>(
     defaultChecked: false,
   };
 
-  const { translateError } = useLocalizations();
+  const { translateError, t } = useLocalizations();
   const [value, setValueInternal] = useState<string>(initialState);
   const [checked, setCheckedInternal] = useState<boolean>(opts?.defaultChecked || false);
   const [hasPassedComplexity, setHasPassedComplexity] = useState(false);
@@ -135,7 +136,7 @@ export const useFormControl = <Id extends string>(
     setError,
     onChange,
     setWarning,
-    feedback: feedback.message,
+    feedback: feedback.message || t(opts.infoText),
     feedbackType: feedback.type,
     setInfo,
     hasPassedComplexity,
