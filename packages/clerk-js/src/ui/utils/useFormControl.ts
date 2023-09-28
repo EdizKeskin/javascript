@@ -64,6 +64,7 @@ export type FormControlState<Id = string> = FieldStateProps<Id> & {
   setInfo: (info: string) => void;
   setValue: (val: string | undefined) => void;
   setChecked: (isChecked: boolean) => void;
+  clearFeedback: () => void;
   props: FieldStateProps<Id>;
 };
 
@@ -120,8 +121,12 @@ export const useFormControl = <Id extends string>(
 
   const setInfo: FormControlState['setInfo'] = info => {
     if (info) {
-      setFeedback({ message: translateError(info), type: 'info' });
+      setFeedback({ message: info, type: 'info' });
     }
+  };
+
+  const clearFeedback: FormControlState['clearFeedback'] = () => {
+    setFeedback({ message: '', type: 'info' });
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -139,6 +144,7 @@ export const useFormControl = <Id extends string>(
     feedback: feedback.message || t(opts.infoText),
     feedbackType: feedback.type,
     setInfo,
+    clearFeedback,
     hasPassedComplexity,
     setHasPassedComplexity,
     validatePassword: opts.type === 'password' ? opts.validatePassword : undefined,

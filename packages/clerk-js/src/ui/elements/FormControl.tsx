@@ -395,7 +395,7 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
         inputElementProps.onFocus?.(e);
         setTimeout(() => {
           setIsFocused(true);
-        }, 300);
+        }, 350);
       }}
       onBlur={e => {
         inputElementProps.onBlur?.(e);
@@ -403,7 +403,7 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
         // and we don't want to spam layout shifts
         setTimeout(() => {
           setIsFocused(false);
-        }, 300);
+        }, 350);
       }}
       ref={ref}
       placeholder={t(placeholder)}
