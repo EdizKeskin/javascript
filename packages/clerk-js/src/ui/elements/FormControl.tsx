@@ -94,16 +94,16 @@ function useFormTextAnimation() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const getFormTextAnimation = useCallback(
-    (enterAnimation: boolean): ThemableCssProp => {
+    (enterAnimation: boolean, inDelay?: boolean): ThemableCssProp => {
       if (prefersReducedMotion) {
         return {
           animation: 'none',
         };
       }
       return t => ({
-        animation: `${enterAnimation ? animations.inAnimation : animations.outAnimation} ${
-          t.transitionDuration.$textField
-        } ${t.transitionTiming.$common}`,
+        animation: `${
+          enterAnimation ? (inDelay ? animations.inDelayAnimation : animations.inAnimation) : animations.outAnimation
+        } ${t.transitionDuration.$textField} ${t.transitionTiming.$common}`,
         transition: `height ${t.transitionDuration.$slow} ${t.transitionTiming.$common}`, // This is expensive but required for a smooth layout shift
       });
     },
@@ -121,7 +121,8 @@ const useCalculateErrorTextHeight = ({ feedback }: { feedback: string }) => {
   const calculateHeight = useCallback(
     (element: HTMLElement | null) => {
       if (element) {
-        setHeight(element.scrollHeight);
+        const computedStyles = getComputedStyle(element);
+        setHeight(element.scrollHeight + parseInt(computedStyles.marginTop.replace('px', '')));
       }
     },
     [feedback],
@@ -228,7 +229,7 @@ export const FormFeedback = (props: FormFeedbackProps) => {
             () => ({
               visibility: feedbacks.a?.shouldEnter ? 'visible' : 'hidden',
             }),
-            getFormTextAnimation(!!feedbacks.a?.shouldEnter),
+            getFormTextAnimation(!!feedbacks.a?.shouldEnter, true),
           ]}
           localizationKey={feedbacks.a?.feedback}
         />
@@ -239,7 +240,7 @@ export const FormFeedback = (props: FormFeedbackProps) => {
             () => ({
               visibility: feedbacks.b?.shouldEnter ? 'visible' : 'hidden',
             }),
-            getFormTextAnimation(!!feedbacks.b?.shouldEnter),
+            getFormTextAnimation(!!feedbacks.b?.shouldEnter, true),
           ]}
           localizationKey={feedbacks.b?.feedback}
         />
@@ -255,6 +256,7 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
   const {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     hasPassedComplexity,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     infoText,
     id,
     isRequired,
@@ -391,7 +393,9 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
       {...inputElementProps}
       onFocus={e => {
         inputElementProps.onFocus?.(e);
-        setIsFocused(true);
+        setTimeout(() => {
+          setIsFocused(true);
+        }, 300);
       }}
       onBlur={e => {
         inputElementProps.onBlur?.(e);
@@ -399,7 +403,7 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
         // and we don't want to spam layout shifts
         setTimeout(() => {
           setIsFocused(false);
-        }, 500);
+        }, 300);
       }}
       ref={ref}
       placeholder={t(placeholder)}
