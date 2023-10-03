@@ -1,7 +1,7 @@
 import type { FieldId } from '@clerk/types';
 import type { ClerkAPIError } from '@clerk/types';
 import type { PropsWithChildren } from 'react';
-import { useEffect } from 'react';
+import { useRef } from 'react';
 import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 
 import type { LocalizationKey } from '../customizables';
@@ -148,17 +148,10 @@ type FormFeedbackProps = Partial<ReturnType<typeof useFormControlFeedback>['debo
 
 export const FormFeedback = (props: FormFeedbackProps) => {
   const { id, elementDescriptors, feedback, feedbackType = 'info' } = props;
-  const [feedbacks, setFeedbacks] = useState<{
+  const feedbacksRef = useRef<{
     a?: Feedback;
     b?: Feedback;
   }>({ a: { feedback, feedbackType, shouldEnter: true }, b: undefined });
-  const { calculateHeight: calculateHeightA, height: heightA } = useCalculateErrorTextHeight({
-    feedback: feedbacks.a?.feedback || '',
-  });
-  const { calculateHeight: calculateHeightB, height: heightB } = useCalculateErrorTextHeight({
-    feedback: feedbacks.b?.feedback || '',
-  });
-  const [heightMax, setHeightMax] = useState(Math.max(heightA, heightB));
 
   const { getFormTextAnimation } = useFormTextAnimation();
   const defaultElementDescriptors = {
@@ -168,32 +161,47 @@ export const FormFeedback = (props: FormFeedbackProps) => {
     success: descriptors.formFieldSuccessText,
   };
 
-  useEffect(() => {
-    setFeedbacks(oldFeedbacks => {
-      if (oldFeedbacks.a?.shouldEnter) {
-        return {
-          a: { ...oldFeedbacks.a, shouldEnter: false },
-          b: {
-            feedback,
-            feedbackType,
-            shouldEnter: true,
-          },
-        };
-      } else {
-        return {
-          a: {
-            feedback,
-            feedbackType,
-            shouldEnter: true,
-          },
-          b: { ...oldFeedbacks.b, shouldEnter: false },
-        };
-      }
-    });
+  const feedbacks = useMemo(() => {
+    const oldFeedbacks = feedbacksRef.current;
+    let result: {
+      a?: Feedback;
+      b?: Feedback;
+    };
+    if (oldFeedbacks.a?.shouldEnter) {
+      result = {
+        a: { ...oldFeedbacks.a, shouldEnter: false },
+        b: {
+          feedback,
+          feedbackType,
+          shouldEnter: true,
+        },
+      };
+    } else {
+      result = {
+        a: {
+          feedback,
+          feedbackType,
+          shouldEnter: true,
+        },
+        b: { ...oldFeedbacks.b, shouldEnter: false },
+      };
+    }
+    feedbacksRef.current = result;
+    return result;
   }, [feedback, feedbackType]);
 
-  useEffect(() => {
-    setHeightMax(h => Math.max(heightA, heightB, h));
+  const { calculateHeight: calculateHeightA, height: heightA } = useCalculateErrorTextHeight({
+    feedback: feedbacks.a?.feedback || '',
+  });
+  const { calculateHeight: calculateHeightB, height: heightB } = useCalculateErrorTextHeight({
+    feedback: feedbacks.b?.feedback || '',
+  });
+  const maxHeightRef = useRef(Math.max(heightA, heightB));
+
+  const maxHeight = useMemo(() => {
+    const max = Math.max(heightA, heightB, maxHeightRef.current);
+    maxHeightRef.current = max;
+    return max;
   }, [heightA, heightB]);
 
   const getElementProps = (type: FormFeedbackDescriptorsKeys) => {
@@ -220,7 +228,7 @@ export const FormFeedback = (props: FormFeedbackProps) => {
   return (
     <Box
       style={{
-        height: feedback ? heightMax : 0, // dynamic height
+        height: feedback ? maxHeight : 0, // dynamic height
         position: 'relative',
       }}
       sx={[getFormTextAnimation(!!feedback)]}
