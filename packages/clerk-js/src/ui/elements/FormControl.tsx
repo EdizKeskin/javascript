@@ -52,6 +52,7 @@ type FormControlProps = Omit<PropsOfComponent<typeof Input>, 'label' | 'placehol
   feedback: string;
   feedbackType: FeedbackType;
   setHasPassedComplexity: (b: boolean) => void;
+  clearFeedback: () => void;
   hasPassedComplexity: boolean;
   infoText?: string | LocalizationKey;
   radioOptions?: {
@@ -284,6 +285,7 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
     setWarning,
     setInfo,
     setHasPassedComplexity,
+    clearFeedback,
     radioOptions,
     groupPreffix,
     groupSuffix,
@@ -427,6 +429,7 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
       setWarning={setWarning}
       setInfo={setInfo}
       setHasPassedComplexity={setHasPassedComplexity}
+      clearFeedback={clearFeedback}
       sx={sx}
     >
       {isCheckbox ? (

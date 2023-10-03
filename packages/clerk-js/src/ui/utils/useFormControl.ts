@@ -55,6 +55,7 @@ type FieldStateProps<Id> = {
   setSuccess: (message: string) => void;
   setInfo: (info: string) => void;
   setHasPassedComplexity: (b: boolean) => void;
+  clearFeedback: () => void;
   hasPassedComplexity: boolean;
 } & Omit<Options, 'defaultChecked'>;
 
