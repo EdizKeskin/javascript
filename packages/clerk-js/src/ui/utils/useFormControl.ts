@@ -2,7 +2,7 @@ import type { ClerkAPIError } from '@clerk/types';
 import type { HTMLInputTypeAttribute } from 'react';
 import { useState } from 'react';
 
-import { useSetTimeout } from '../hooks';
+import { useDebounce } from '../hooks';
 import type { LocalizationKey } from '../localization';
 import { useLocalizations } from '../localization';
 
@@ -179,10 +179,9 @@ type DebouncingOption = {
 };
 export const useFormControlFeedback = (opts?: DebouncingOption): DebouncedFeedback => {
   const { feedback = '', delayInMs = 100, feedbackType = 'info', isFocused = false } = opts || {};
-
   const shouldHide = isFocused ? false : ['info', 'warning'].includes(feedbackType);
 
-  const debouncedState = useSetTimeout(
+  const debouncedState = useDebounce(
     { feedback: shouldHide ? '' : feedback, feedbackType: shouldHide ? 'info' : feedbackType },
     delayInMs,
   );

@@ -94,7 +94,7 @@ function useFormTextAnimation() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const getFormTextAnimation = useCallback(
-    (enterAnimation: boolean, inDelay?: boolean): ThemableCssProp => {
+    (enterAnimation: boolean, options?: { inDelay?: boolean }): ThemableCssProp => {
       if (prefersReducedMotion) {
         return {
           animation: 'none',
@@ -102,7 +102,11 @@ function useFormTextAnimation() {
       }
       return t => ({
         animation: `${
-          enterAnimation ? (inDelay ? animations.inDelayAnimation : animations.inAnimation) : animations.outAnimation
+          enterAnimation
+            ? options?.inDelay
+              ? animations.inDelayAnimation
+              : animations.inAnimation
+            : animations.outAnimation
         } ${t.transitionDuration.$textField} ${t.transitionTiming.$common}`,
         transition: `height ${t.transitionDuration.$slow} ${t.transitionTiming.$common}`, // This is expensive but required for a smooth layout shift
       });
@@ -221,30 +225,28 @@ export const FormFeedback = (props: FormFeedbackProps) => {
       }}
       sx={[getFormTextAnimation(!!feedback)]}
     >
-      <Box>
-        <InfoComponentA
-          {...(feedbacks.a?.feedbackType ? getElementProps(feedbacks.a.feedbackType) : {})}
-          ref={calculateHeightA}
-          sx={[
-            () => ({
-              visibility: feedbacks.a?.shouldEnter ? 'visible' : 'hidden',
-            }),
-            getFormTextAnimation(!!feedbacks.a?.shouldEnter, true),
-          ]}
-          localizationKey={feedbacks.a?.feedback}
-        />
-        <InfoComponentB
-          {...(feedbacks.b?.feedbackType ? getElementProps(feedbacks.b.feedbackType) : {})}
-          ref={calculateHeightB}
-          sx={[
-            () => ({
-              visibility: feedbacks.b?.shouldEnter ? 'visible' : 'hidden',
-            }),
-            getFormTextAnimation(!!feedbacks.b?.shouldEnter, true),
-          ]}
-          localizationKey={feedbacks.b?.feedback}
-        />
-      </Box>
+      <InfoComponentA
+        {...(feedbacks.a?.feedbackType ? getElementProps(feedbacks.a.feedbackType) : {})}
+        ref={calculateHeightA}
+        sx={[
+          () => ({
+            visibility: feedbacks.a?.shouldEnter ? 'visible' : 'hidden',
+          }),
+          getFormTextAnimation(!!feedbacks.a?.shouldEnter, { inDelay: true }),
+        ]}
+        localizationKey={feedbacks.a?.feedback}
+      />
+      <InfoComponentB
+        {...(feedbacks.b?.feedbackType ? getElementProps(feedbacks.b.feedbackType) : {})}
+        ref={calculateHeightB}
+        sx={[
+          () => ({
+            visibility: feedbacks.b?.shouldEnter ? 'visible' : 'hidden',
+          }),
+          getFormTextAnimation(!!feedbacks.b?.shouldEnter, { inDelay: true }),
+        ]}
+        localizationKey={feedbacks.b?.feedback}
+      />
     </Box>
   );
 };
@@ -393,17 +395,11 @@ export const FormControl = forwardRef<HTMLInputElement, PropsWithChildren<FormCo
       {...inputElementProps}
       onFocus={e => {
         inputElementProps.onFocus?.(e);
-        setTimeout(() => {
-          setIsFocused(true);
-        }, 350);
+        setIsFocused(true);
       }}
       onBlur={e => {
         inputElementProps.onBlur?.(e);
-        // set a timeout because new errors might appear
-        // and we don't want to spam layout shifts
-        setTimeout(() => {
-          setIsFocused(false);
-        }, 350);
+        setIsFocused(false);
       }}
       ref={ref}
       placeholder={t(placeholder)}
