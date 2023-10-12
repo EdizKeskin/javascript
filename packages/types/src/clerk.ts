@@ -714,13 +714,7 @@ export type UserProfileProps = {
    */
   additionalOAuthScopes?: Partial<Record<OAuthProvider, OAuthScope[]>>;
   /*
-   * Provide addition custom route items and pages to be rendered inside the UserProfile.
-   * e.g.
-   *  <UserProfile>
-   *    <UserProfile.Page label="Custom Page" url="custom-page" labelIcon={<div>C</div>}>
-   *      <div>Hello from custom page!</div>
-   *    </UserProfile.Page>
-   *  </UserProfile>
+   * Provide custom pages and links to be rendered inside the UserProfile.
    */
   customPages?: CustomPage[];
 };
@@ -746,13 +740,7 @@ export type OrganizationProfileProps = {
    */
   appearance?: OrganizationProfileTheme;
   /*
-   * Provide addition custom route items and pages to be rendered inside the OrganizationProfile.
-   * e.g.
-   *  <OrganizationProfile>
-   *    <OrganizationProfile.Page label="Custom Page" url="custom-page" labelIcon={<div>C</div>}>
-   *      <div>Hello from custom page!</div>
-   *    </OrganizationProfile.Page>
-   *  </OrganizationProfile>
+   * Provide custom pages and links to be rendered inside the OrganizationProfile.
    */
   customPages?: CustomPage[];
 };
