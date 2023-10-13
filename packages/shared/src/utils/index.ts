@@ -26,3 +26,4 @@ export * from './runtimeEnvironment';
 export { deprecated, deprecatedProperty, deprecatedObjectProperty } from './deprecated';
 export { callWithRetry } from './callWithRetry';
 export { isDevelopmentFromApiKey, isProductionFromApiKey, isStaging } from './instance';
+export { logErrorInDevMode } from './logErrorInDevMode';
