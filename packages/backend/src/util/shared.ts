@@ -6,8 +6,6 @@ export {
   isDevelopmentFromApiKey,
   isProductionFromApiKey,
   parsePublishableKey,
-  deprecated,
-  deprecatedProperty,
 } from '@clerk/shared';
 
 import { buildErrorThrower } from '@clerk/shared';
