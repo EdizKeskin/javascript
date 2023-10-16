@@ -104,7 +104,10 @@ export class Session extends BaseResource implements SessionResource {
       if (params.role) {
         return resolve(activeOrganizationRole === params.role);
       }
-      return resolve(false);
+
+      if (params.any) {
+        return resolve(params.any.filter(perm => activeOrganizationPermissions.includes(perm)).length > 0);
+      }
     });
   };
 
