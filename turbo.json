@@ -21,11 +21,15 @@
     "CLERK_API_URL",
     "CLERK_API_VERSION",
     "CLERK_API_KEY",
+    "CLERK_FRONTEND_API",
+    "CLERK_JWT_KEY",
+    "CLERK_PUBLISHABLE_KEY",
     "CLERK_SECRET_KEY",
     "GATSBY_CLERK_JS",
     "GATSBY_CLERK_FRONTEND_API",
     "GATSBY_CLERK_PROXY_URL",
     "GATSBY_CLERK_PUBLISHABLE_KEY",
+    "MAILSAC_API_KEY",
     "NEXT_PUBLIC_CLERK_JS_VERSION",
     "NEXT_PUBLIC_CLERK_JS",
     "NEXT_PUBLIC_CLERK_FRONTEND_API",
@@ -63,7 +67,7 @@
       "outputs": []
     },
     "lint": {
-      "dependsOn": ["build"],
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "lint:publint": {

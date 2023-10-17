@@ -2,6 +2,7 @@
   "name": "@clerk/javascript",
   "workspaces": {
     "packages": [
+      "integration",
       "packages/*"
     ]
   },
@@ -21,7 +22,6 @@
     "@commitlint/config-conventional": "^17.7.0",
     "@emotion/jest": "^11.11.0",
     "@faker-js/faker": "^8.1.0",
-    "@playwright/test": "^1.38.1",
     "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -67,11 +67,11 @@
     "build": "FORCE_COLOR=1 turbo build --concurrency=${TURBO_CONCURRENCY:-80%}",
     "test": "FORCE_COLOR=1 turbo test --concurrency=${TURBO_CONCURRENCY:-80%}",
     "test:ci": "FORCE_COLOR=1 turbo test --concurrency=${TURBO_CONCURRENCY:-80%}",
-    "test:integration:base": "DEBUG=1 npx playwright test --config integration/playwright.config.ts",
-    "test:integration:generic": "E2E_APP_ID=react.vite.* npm run test:integration:base -- --grep @generic",
-    "test:integration:nextjs": "E2E_APP_ID=next.appRouter.withEmailCodes npm run test:integration:base -- --grep \"@generic|@nextjs\"",
-    "test:integration:remix": "echo 'placeholder'",
-    "test:integration:deployment:nextjs": "DEBUG=1 npx playwright test --config integration/playwright.deployments.config.ts",
+    "test:integration:base": "npm run test:integration:base -w integration",
+    "test:integration:generic": "npm run test:integration:generic -w integration",
+    "test:integration:nextjs": "npm run test:integration:nextjs -w integration",
+    "test:integration:remix": "npm run test:integration:deployment:remix -w integration",
+    "test:integration:deployment:nextjs": "npm run test:integration:deployment:nextjs -w integration",
     "clean": "turbo clean",
     "lint": "FORCE_COLOR=1 turbo lint",
     "lint:publint": "FORCE_COLOR=1 turbo lint:publint",
