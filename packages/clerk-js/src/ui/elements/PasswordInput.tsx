@@ -72,11 +72,11 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>((p
         onChange={onChange}
         onBlur={e => {
           rest.onBlur?.(e);
-          validatePassword(e.target.value);
+          onChange(e);
         }}
         onFocus={e => {
           rest.onFocus?.(e);
-          validatePassword(e.target.value);
+          onChange(e);
         }}
         //@ts-expect-error
         ref={mergeRefs(ref, inputRef)}
