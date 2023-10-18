@@ -2,13 +2,14 @@
   "name": "@clerk/shared",
   "version": "0.24.5",
   "description": "Internal package utils used by the Clerk SDKs",
-  "types": "./dist/types/index.d.ts",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clerkinc/javascript.git",
+    "directory": "packages/shared"
+  },
+  "license": "MIT",
+  "author": "Clerk",
   "sideEffects": false,
-  "files": [
-    "dist"
-  ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -16,16 +17,22 @@
       "require": "./dist/cjs/index.js"
     }
   },
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
+    "build:declarations": "tsc -p tsconfig.json",
+    "clean": "rimraf ./dist",
     "dev": "tsup --watch",
     "dev:publish": "npm run dev -- --env.publish",
-    "build:declarations": "tsc -p tsconfig.json",
-    "publish:local": "npx yalc push --replace  --sig",
-    "clean": "rimraf ./dist",
     "lint": "eslint src/",
-    "lint:publint": "publint",
     "lint:attw": "attw --pack .",
+    "lint:publint": "publint",
+    "publish:local": "npx yalc push --replace  --sig",
     "test": "jest",
     "test:ci": "jest --maxWorkers=70%",
     "test:coverage": "jest --collectCoverage && open coverage/lcov-report/index.html"
@@ -51,14 +58,7 @@
       "optional": true
     }
   },
-  "author": "Clerk",
-  "license": "MIT",
   "publishConfig": {
     "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/clerkinc/javascript.git",
-    "directory": "packages/shared"
   }
 }
