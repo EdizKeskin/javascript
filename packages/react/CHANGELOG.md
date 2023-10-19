@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.26.7
+
+### Patch Changes
+
+- Publish packages with [npm provenance](https://docs.npmjs.com/generating-provenance-statements) enabled ([#1891](https://github.com/clerkinc/javascript/pull/1891)) by [@LekoArts](https://github.com/LekoArts)
+
+- Consider `Clerk.setActive` as stable. ([#1917](https://github.com/clerkinc/javascript/pull/1917)) by [@dimkl](https://github.com/dimkl)
+
+- Updated dependencies [[`3bf64107e`](https://github.com/clerkinc/javascript/commit/3bf64107e1d0f9fce55163276d157da7849a390f), [`b09b66eec`](https://github.com/clerkinc/javascript/commit/b09b66eec6ed0fbf99d93cd6843826f19c911099), [`aa4cd7615`](https://github.com/clerkinc/javascript/commit/aa4cd761585b888706a36a6eed7436a8f0476dbf)]:
+  - @clerk/shared@1.0.0
+  - @clerk/types@3.56.2
+
 ## 4.26.6
 
 ### Patch Changes

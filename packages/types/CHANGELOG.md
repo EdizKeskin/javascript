@@ -1,5 +1,13 @@
 # Change Log
 
+## 3.56.2
+
+### Patch Changes
+
+- Publish packages with [npm provenance](https://docs.npmjs.com/generating-provenance-statements) enabled ([#1891](https://github.com/clerkinc/javascript/pull/1891)) by [@LekoArts](https://github.com/LekoArts)
+
+- Drop `experimental_force_oauth_first` & `experimental__forceOauthFirst` from `DisplayConfig` ([#1918](https://github.com/clerkinc/javascript/pull/1918)) by [@dimkl](https://github.com/dimkl)
+
 ## 3.56.1
 
 ### Patch Changes

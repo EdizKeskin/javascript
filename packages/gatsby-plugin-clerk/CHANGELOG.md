@@ -1,5 +1,17 @@
 # Change Log
 
+## 4.4.18
+
+### Patch Changes
+
+- Publish packages with [npm provenance](https://docs.npmjs.com/generating-provenance-statements) enabled ([#1891](https://github.com/clerkinc/javascript/pull/1891)) by [@LekoArts](https://github.com/LekoArts)
+
+- Updated dependencies [[`3bf64107e`](https://github.com/clerkinc/javascript/commit/3bf64107e1d0f9fce55163276d157da7849a390f), [`b09b66eec`](https://github.com/clerkinc/javascript/commit/b09b66eec6ed0fbf99d93cd6843826f19c911099), [`37d8856ba`](https://github.com/clerkinc/javascript/commit/37d8856babb9db8edf763455172c4d22d6035036)]:
+  - @clerk/clerk-sdk-node@4.12.16
+  - @clerk/backend@0.31.3
+  - @clerk/clerk-react@4.26.7
+  - @clerk/types@3.56.2
+
 ## 4.4.17
 
 ### Patch Changes

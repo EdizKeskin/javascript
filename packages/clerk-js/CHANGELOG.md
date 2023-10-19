@@ -1,5 +1,22 @@
 # Change Log
 
+## 4.62.2
+
+### Patch Changes
+
+- Publish packages with [npm provenance](https://docs.npmjs.com/generating-provenance-statements) enabled ([#1891](https://github.com/clerkinc/javascript/pull/1891)) by [@LekoArts](https://github.com/LekoArts)
+
+- Keep `CreateOrganizationForm` disabled in case of an uploaded avatar and organization name is empty. ([#1910](https://github.com/clerkinc/javascript/pull/1910)) by [@nikospapcom](https://github.com/nikospapcom)
+
+- Drop `experimental_force_oauth_first` & `experimental__forceOauthFirst` from `DisplayConfig` ([#1918](https://github.com/clerkinc/javascript/pull/1918)) by [@dimkl](https://github.com/dimkl)
+
+- Consider `Clerk.setActive` as stable. ([#1917](https://github.com/clerkinc/javascript/pull/1917)) by [@dimkl](https://github.com/dimkl)
+
+- Updated dependencies [[`3bf64107e`](https://github.com/clerkinc/javascript/commit/3bf64107e1d0f9fce55163276d157da7849a390f), [`b09b66eec`](https://github.com/clerkinc/javascript/commit/b09b66eec6ed0fbf99d93cd6843826f19c911099), [`aa4cd7615`](https://github.com/clerkinc/javascript/commit/aa4cd761585b888706a36a6eed7436a8f0476dbf)]:
+  - @clerk/localizations@1.26.7
+  - @clerk/shared@1.0.0
+  - @clerk/types@3.56.2
+
 ## 4.62.1
 
 ### Patch Changes
